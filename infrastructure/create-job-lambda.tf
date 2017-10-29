@@ -45,7 +45,22 @@ resource "aws_iam_role_policy" "create_job_lambda_policy" {
          "s3:GetObject"
        ],
        "Resource": ["arn:aws:s3:::${aws_s3_bucket.companies.bucket}/*"]
-     }
+     },
+    {
+         "Effect":"Allow",
+         "Action":"logs:CreateLogGroup",
+         "Resource":"arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:*"
+      },
+     {
+         "Effect":"Allow",
+         "Action":[
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+         ],
+         "Resource":[
+            "arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:log-group:[[logGroups]]:*"
+         ]
+      }
   ]
 }
 EOF
