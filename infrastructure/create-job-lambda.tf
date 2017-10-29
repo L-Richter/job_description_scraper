@@ -72,12 +72,12 @@ resource "aws_lambda_permission" "allow_create_job_from_bucket" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.create-job-lambda.arn}"
   principal     = "s3.amazonaws.com"
-  source_arn    = "${aws_s3_bucket.jobs.arn}"
+  source_arn    = "${aws_s3_bucket.companies.arn}"
 }
 
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = "${aws_s3_bucket.jobs.id}"
+  bucket = "${aws_s3_bucket.companies.id}"
 
   lambda_function {
     lambda_function_arn = "${aws_lambda_function.create-job-lambda.arn}"
