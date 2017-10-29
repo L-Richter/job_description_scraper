@@ -15,4 +15,10 @@ aws lambda update-function-code \
 --s3-key scraper-daily.zip \
 --publish
 
+aws lambda update-function-code \
+--function-name create-job-lambda \
+--s3-bucket lambdas-all \
+--s3-key create-job.zip \
+--publish
+
 
