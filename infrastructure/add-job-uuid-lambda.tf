@@ -105,7 +105,8 @@ resource "aws_lambda_function" "add-job-uuid-lambda" {
   
   environment {
     variables = {
-      target_bucket = "${aws_s3_bucket.job-descriptions.bucket}"
+      target_bucket  = "${aws_s3_bucket.job-descriptions.bucket}"
+      DYNAMODB_TABLE = "${aws_dynamodb_table.jobs.name}"
     }
   }
 
