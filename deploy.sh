@@ -1,8 +1,12 @@
 #!/bin/bash
 
-echo "zipping lambdas"
+echo "preparing deployment packages"
 zip -j lambdas/daily_lambda/daily_lambda.zip lambdas/daily_lambda/daily_lambda.py
-zip -j -r lambdas/create_job_lambda/create_job.zip lambdas/create_job_lambda/
+
+cd lambdas/create_job_lambda/
+pip install requests -t .
+zip -r create_job.zip .
+cd ../..
 
 echo "uploading lambdas to S3"
 aws s3 cp lambdas/daily_lambda/daily_lambda.zip s3://lambdas-all/scraper-daily.zip
