@@ -4,7 +4,6 @@ import logging
 import json
 import importlib
 import datetime as dt
-import uuid
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
