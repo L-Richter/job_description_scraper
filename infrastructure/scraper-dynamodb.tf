@@ -1,12 +1,12 @@
 resource "aws_dynamodb_table" "jobs" {
-  name             = "Jobs"
-  read_capacity    = 10
-  write_capacity   = 10
-  hash_key         = "JobUUID"
+  name             = "jobs"
+  read_capacity    = 25
+  write_capacity   = 15
+  hash_key         = "job_uuid"
   stream_enabled   = false
 
   attribute {
-    name = "JobUUID"
+    name = "job_uuid"
     type = "S"
   }
 }
