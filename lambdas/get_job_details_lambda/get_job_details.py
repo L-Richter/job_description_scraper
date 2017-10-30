@@ -19,12 +19,13 @@ def lambda_handler(event, context):
     company = task['company']
     date = task['date']
     job_resource = task['job_resource']
+    task_uuid = task['task_uuid']
 
     scraper = importlib.import_module(f'scrapers.{company}')
     job_details = scraper.get_details(job_resource)
     target_bucket = s3.Bucket(target_bucket_name)
     task['job_details'] = job_details
     job_snap = json.dumps(task)
-    target_bucket.put_object(Key=date+'/'+company+'/'+task[task_uuid]+'.json',
+    target_bucket.put_object(Key=date+'/'+company+'/'+task_uuid+'.json',
                   Body=job_snap.encode())
-    logger.info(f'created task {task[task_uuid]}')
+    logger.info(f'created task {task_uuid}')
