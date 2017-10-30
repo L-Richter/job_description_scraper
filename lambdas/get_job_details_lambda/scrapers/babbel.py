@@ -1,7 +1,7 @@
 import requests
 import json
 
-def get_jobs(job_resource):
+def get_details(job_resource):
     api_url = f'https://api.greenhouse.io/v1/boards/babbel/jobs/{job_resource}'
     response = requests.get(api_url)
     response.raise_for_status()
