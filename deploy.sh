@@ -4,8 +4,19 @@ echo "preparing deployment packages"
 zip -j lambdas/daily_lambda/daily_lambda.zip lambdas/daily_lambda/daily_lambda.py
 
 cd lambdas/create_job_lambda/
-pip install requests -t .
 zip -r create_job.zip .
+cd ../..
+
+cd lambdas/get_job_details_lambda/
+zip -r get_job_details.zip .
+cd ../..
+
+echo "install required packages"
+pip install requests -t tmp/requests
+
+cd tmp/requests/
+zip -ur ../../lambdas/create_job_lambda/create_job.zip .
+zip -ur ../../lambdas/get_job_details_lambda/get_job_details.zip .
 cd ../..
 
 echo "uploading lambdas to S3"
