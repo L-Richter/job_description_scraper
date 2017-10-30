@@ -22,6 +22,7 @@ cd ../..
 echo "uploading lambdas to S3"
 aws s3 cp lambdas/daily_lambda/daily_lambda.zip s3://lambdas-all/scraper-daily.zip
 aws s3 cp lambdas/create_job_lambda/create_job.zip s3://lambdas-all/create-job.zip
+aws s3 cp lambdas/get_job_details_lambda/get_job_details.zip s3://lambdas-all/get-job-details.zip
 
 echo "updating lambdas"
 aws lambda update-function-code \
@@ -34,6 +35,12 @@ aws lambda update-function-code \
 --function-name create-job-lambda \
 --s3-bucket lambdas-all \
 --s3-key create-job.zip \
+--publish
+
+aws lambda update-function-code \
+--function-name get-job-details-lambda \
+--s3-bucket lambdas-all \
+--s3-key get-job-details.zip \
 --publish
 
 
