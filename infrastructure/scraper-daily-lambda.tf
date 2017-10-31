@@ -71,6 +71,29 @@ EOF
 }
 
 
+resource "aws_cloudwatch_event_rule" "daily-scraper-update" {
+  name        = "daily-at-0525"
+  description = "daily at 05:25 utc"
+  schedule_expression = "cron(25 5 * * ? *)"
+}
+
+
+resource "aws_cloudwatch_event_target" "daily-scraper-update-target" {
+  rule      = "${aws_cloudwatch_event_rule.daily-scraper-update.name}"
+  target_id = "daily_scraper_update"
+  arn       = "${aws_lambda_function.scraper-daily-lambda.arn}"
+}
+
+
+resource "aws_lambda_permission" "allow-cloudwatch-scraper-update" {
+  statement_id   = "AllowExecutionFromCloudWatch"
+  action         = "lambda:InvokeFunction"
+  function_name  = "${aws_lambda_function.scraper-daily-lambda.function_name}"
+  principal      = "events.amazonaws.com"
+  source_arn     = "${aws_cloudwatch_event_rule.daily-scraper-update.arn}"
+}
+
+
 resource "aws_lambda_function" "scraper-daily-lambda" {
   s3_bucket         = "${aws_s3_bucket_object.scraper-daily-lambda-object.bucket}"
   s3_key            = "${aws_s3_bucket_object.scraper-daily-lambda-object.key}"
