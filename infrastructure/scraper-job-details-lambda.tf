@@ -37,7 +37,7 @@ resource "aws_iam_role_policy" "get_job_details_lambda_policy" {
        "Action": [
          "s3:PutObject"
        ],
-       "Resource": ["arn:aws:s3:::${aws_s3_bucket.raw-job-details.bucket}/*"]
+       "Resource": ["arn:aws:s3:::${aws_s3_bucket.job-descriptions.bucket}/*"]
      },
     {
        "Effect": "Allow",
@@ -96,7 +96,7 @@ resource "aws_lambda_function" "get-job-details-lambda" {
   
   environment {
     variables = {
-      target_bucket = "${aws_s3_bucket.raw-job-details.bucket}"
+      target_bucket = "${aws_s3_bucket.job-descriptions.bucket}"
     }
   }
 

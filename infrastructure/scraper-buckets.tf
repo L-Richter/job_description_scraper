@@ -8,8 +8,3 @@ resource "aws_s3_bucket" "jobs" {
   acl    = "private"
 }
 
-resource "aws_s3_bucket" "raw-job-details" {
-  bucket = "raw-details"
-  acl    = "private"
-}
-
