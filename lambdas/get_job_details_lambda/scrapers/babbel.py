@@ -20,5 +20,5 @@ def get_details(job_resource):
 
 
 def hash_string(s):
-    return hashlib.md5(s.encode('utf-8')).hexdigest()
+    return hashlib.md5(str(s).encode('utf-8')).hexdigest()
 
