@@ -51,4 +51,8 @@ aws lambda update-function-code \
 --s3-key add-job-uuid.zip \
 --publish
 
+echo "upload configs"
+aws s3 cp config/companies.txt s3://scraper-companies/companies.txt
+
+
 
