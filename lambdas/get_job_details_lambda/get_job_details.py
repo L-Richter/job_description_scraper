@@ -18,7 +18,7 @@ def lambda_handler(event, context):
     task = json.loads(source_object.get()['Body'].read().decode('utf-8'))
     company = task['company']
     date = task['date']
-    job_resource = task['job_resource']
+    job_resource = task.pop('job_resource')
     task_uuid = task['task_uuid']
 
     scraper = importlib.import_module(f'scrapers.{company}')
