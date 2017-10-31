@@ -6,6 +6,6 @@ def get_jobs():
     response = requests.get(api_url)
     response.raise_for_status()
     all_jobs = json.loads(response.text)
-    jobs = [job for job in all_jobs if job['department'] == 'fliit']
+    jobs = [job for job in all_jobs['offers'] if job['department'] == 'fliit']
     return jobs
 
