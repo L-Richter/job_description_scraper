@@ -3,4 +3,5 @@
 *.tfstate.backup
 *.terraform/
 tmp/
+*secrets.tf
 
