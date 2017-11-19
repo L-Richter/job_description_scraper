@@ -51,10 +51,10 @@ def lambda_handler(event, context):
 	            (%job_description_hash),
 	            (%location),
 	            (%department));"""
-	departments = job['job_details']['department']
-	department = None
-	if departments:
-	    department = ''.join(departments)
+    departments = job['job_details']['department']
+    department = None
+    if departments:
+        department = ''.join(departments)
     values = {  'created_at': job['created_at'],
                 'trigger_date': job['date'],
                 'company': job['company'],

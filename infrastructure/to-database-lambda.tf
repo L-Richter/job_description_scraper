@@ -50,6 +50,23 @@ resource "aws_iam_role_policy" "to_database_lambda_policy" {
         "Resource": [
             "arn:aws:logs:*:*:*"
         ]
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+                "ec2:DescribeInstances",
+                "ec2:CreateNetworkInterface",
+                "ec2:AttachNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "ec2:DetachNetworkInterface",
+                "ec2:ModifyNetworkInterfaceAttribute",
+                "ec2:ResetNetworkInterfaceAttribute",
+                "autoscaling:CompleteLifecycleAction"
+            ],
+        "Resource": [
+            "*"
+        ]
     }
   ]
 }
@@ -96,5 +113,10 @@ resource "aws_lambda_function" "to-database-lambda" {
     }
   }
 
+  vpc_config = {
+    subnet_ids = ["${aws_subnet.data_backend_1.id}",
+                  "${aws_subnet.data_backend_2.id}"]
+    security_group_ids = ["${aws_security_group.allow_db_connect.id}"]
+  }
 }
 
