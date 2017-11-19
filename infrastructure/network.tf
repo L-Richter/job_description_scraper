@@ -17,4 +17,11 @@ resource "aws_subnet" "data_backend_2" {
 resource "aws_security_group" "allow_db_connect" {
   name        = "allow_db_connect"
   vpc_id      = "${aws_vpc.main.id}"
+  
+  egress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
 }
