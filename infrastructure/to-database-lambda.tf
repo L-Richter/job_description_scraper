@@ -83,6 +83,17 @@ resource "aws_lambda_permission" "allow_to_database_from_bucket" {
 }
 
 
+resource "aws_s3_bucket_notification" "to_db_bucket_notification" {
+  bucket = "${aws_s3_bucket.job-descriptions.id}"
+
+  lambda_function {
+    lambda_function_arn = "${aws_lambda_function.to-database-lambda.arn}"
+    events              = ["s3:ObjectCreated:Put"]
+    filter_suffix       = ".json"
+  }
+}
+
+
 resource "aws_lambda_function" "to-database-lambda" {
   s3_bucket         = "${aws_s3_bucket_object.to-database-lambda-object.bucket}"
   s3_key            = "${aws_s3_bucket_object.to-database-lambda-object.key}"
