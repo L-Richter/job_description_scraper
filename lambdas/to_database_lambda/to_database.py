@@ -10,6 +10,7 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     logger.info(f'start pushing {event} to db')
+    
     db_host = os.environ['DB_HOST']
     db_username = os.environ['DB_USERNAME']
     db_password = os.environ['DB_PASSWORD']
@@ -19,6 +20,7 @@ def lambda_handler(event, context):
     source_key = event['Records'][0]['s3']['object']['key']
     s3 = boto3.resource('s3')
     source_object = s3.Object(source_bucket_name, source_key)
+    logger.info(f'getting s3 object')
     job = json.loads(source_object.get()['Body'].read().decode('utf-8'))
     job = defaultdict(lambda : None, job)
     job['job_details'] = defaultdict(lambda : None, job['job_details'])
@@ -40,17 +42,17 @@ def lambda_handler(event, context):
 	            location,
 	            department)
 	          VALUES (
-	            (%created_at),
-	            (%trigger_date),
-	            (%company),
-	            (%company_name),
-	            (%version),
-	            (%storage_key),
-	            (%natural_id),
-	            (%job_title),
-	            (%job_description_hash),
-	            (%location),
-	            (%department));"""
+	            %(created_at)s,
+	            %(trigger_date)s,
+	            %(company)s,
+	            %(company_name)s,
+	            %(version)s,
+	            %(storage_key)s,
+	            %(natural_id)s,
+	            %(job_title)s,
+	            %(job_description_hash)s,
+	            %(location)s,
+	            %(department)s);"""
     departments = job['job_details']['department']
     department = None
     if departments:
