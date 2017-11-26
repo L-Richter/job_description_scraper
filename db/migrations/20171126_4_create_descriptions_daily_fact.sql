@@ -3,7 +3,7 @@ BEGIN;
 DROP TABLE IF EXISTS descriptions_daily_fact;
 
 CREATE TABLE IF NOT EXISTS descriptions_daily_fact (
-    id                  BIGINT PRIMARY KEY,
+    id                  BIGSERIAL PRIMARY KEY,
     date_sk             INT NOT NULL,
     company_sk          INT NOT NULL,
     natural_id          UUID NOT NULL,
