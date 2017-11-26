@@ -83,17 +83,6 @@ resource "aws_lambda_permission" "allow_to_database_from_bucket" {
 }
 
 
-resource "aws_s3_bucket_notification" "descriptions_bucket_notification" {
-  bucket = "${aws_s3_bucket.job-descriptions.id}"
-
-  lambda_function {
-    lambda_function_arn = "${aws_lambda_function.to-database-lambda.arn}"
-    events              = ["s3:ObjectCreated:Put"]
-    filter_suffix       = ".json"
-  }
-}
-
-
 resource "aws_lambda_function" "to-database-lambda" {
   s3_bucket         = "${aws_s3_bucket_object.to-database-lambda-object.bucket}"
   s3_key            = "${aws_s3_bucket_object.to-database-lambda-object.key}"
@@ -102,7 +91,7 @@ resource "aws_lambda_function" "to-database-lambda" {
   role              = "${aws_iam_role.iam_for_to_database_lambda.arn}"
   handler           = "to_database.lambda_handler"
   runtime           = "python3.6"
-  timeout           = 120
+  timeout           = 60
   
   environment {
     variables = {
@@ -113,10 +102,6 @@ resource "aws_lambda_function" "to-database-lambda" {
     }
   }
 
-  vpc_config = {
-    subnet_ids = ["${aws_subnet.data_backend_1.id}",
-                  "${aws_subnet.data_backend_2.id}"]
-    security_group_ids = ["${aws_security_group.allow_db_connect.id}"]
-  }
+
 }
 

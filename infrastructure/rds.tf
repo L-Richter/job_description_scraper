@@ -1,9 +1,3 @@
-resource "aws_db_subnet_group" "postgresql" {
-  subnet_ids = ["${aws_subnet.data_backend_1.id}",
-                "${aws_subnet.data_backend_2.id}"]
-}
-
-
 resource "aws_db_instance" "postgresql" {
   allocated_storage          = "8"
   engine                     = "postgres"
@@ -18,6 +12,5 @@ resource "aws_db_instance" "postgresql" {
   backup_window              = "06:00-07:00"
   multi_az                   = "false"
   port                       = "5432"
-  publicly_accessible        = "false"
-  db_subnet_group_name       = "${aws_db_subnet_group.postgresql.name}"
+  publicly_accessible        = "true"
 }
