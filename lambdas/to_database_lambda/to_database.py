@@ -57,6 +57,14 @@ def lambda_handler(event, context):
     department = None
     if departments:
         department = ''.join(departments)
+    else:
+        department = 'unknown'
+    location = job['job_details']['location']
+    if not location:
+        location = 'unknown'
+    job_title = job['job_details']['job_title']
+    if not job_title:
+        job_title = 'No Title'
     values = {  'created_at': job['created_at'],
                 'trigger_date': job['date'],
                 'company': job['company'],
@@ -64,9 +72,9 @@ def lambda_handler(event, context):
                 'version': job['version'],
                 'storage_key': source_key,
                 'natural_id': job['job_details']['natural_id'],
-                'job_title': job['job_details']['job_title'],
+                'job_title': job_title,
                 'job_description_hash': job['job_details']['job_description_id'],
-                'location': job['job_details']['location'],
+                'location': location,
                 'department': department
               }
     cur.execute(qry, values)
